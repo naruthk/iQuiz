@@ -12,7 +12,7 @@ class QuestionViewController: UIViewController, UITableViewDelegate, UITableView
     
     // MARK: Properties
     var questions : [Question]?
-    var questionIndex = 0
+    var questionIndex = 1
     var answerIndex = 0
     var isCorrectAnswer = false
     var userSelectedAnswer = ""
@@ -23,7 +23,7 @@ class QuestionViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        questionLabel.text = self.questions![questionIndex].question
+        questionLabel.text = self.questions![questionIndex - 1].question
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,7 +43,7 @@ class QuestionViewController: UIViewController, UITableViewDelegate, UITableView
         let cellIdentifier = "AnswerTableViewCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! AnswerTableViewCell
         if (answerIndex < questions!.count) {
-            let answer = self.questions![questionIndex].answers[answerIndex]
+            let answer = self.questions![questionIndex - 1].answers[answerIndex]
             cell.answerLabel.text = answer
             answerIndex += 1
         }
@@ -51,11 +51,10 @@ class QuestionViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        userSelectedAnswer = self.questions![questionIndex].answers[indexPath.row]
-        if userSelectedAnswer == self.questions![questionIndex].correctAnswer {
+        userSelectedAnswer = self.questions![questionIndex - 1].answers[indexPath.row]
+        if userSelectedAnswer == self.questions![questionIndex - 1].correctAnswer {
             self.isCorrectAnswer = true
         }
-        print(userSelectedAnswer)
     }
 
     
@@ -65,9 +64,6 @@ class QuestionViewController: UIViewController, UITableViewDelegate, UITableView
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         if segue.identifier == "ShowResult" {
-
-//            let destination = segue.destination as! UINavigationController
-//            let vc = destination.topViewController as! ResultViewController
             
             let vc = segue.destination as! ResultViewController
         

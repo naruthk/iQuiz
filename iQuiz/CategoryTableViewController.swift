@@ -146,8 +146,6 @@ class CategoryTableViewController: UITableViewController {
         cell.imageView?.image = category.icon
         cell.questions = category.questionsArray
         
-        print(cell.questions)
-        
         return cell
     }
 
