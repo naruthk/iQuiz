@@ -13,6 +13,75 @@ class CategoryTableViewController: UITableViewController {
     // MARK: Properties
     var categories = [Category]()
     
+    let mathQuestions = [
+        Question(
+            question: "At a party, everyone shook hands with everybody else. There were 66 handshakes. How many people were at the party?",
+            answers: ["30", "14", "12", "25"],
+            correctAnswer: "12"
+        ),
+        Question(
+            question: "It's dark. You have ten grey socks and ten blue socks you want to put into pairs. All socks are exactly the same except for their colour. How many socks would you need to take with you to ensure you had at least a pair?",
+            answers: ["3", "6", "18", "7"],
+            correctAnswer: "3"
+        ),
+        Question(
+            question: "My grandson is about as many days as my daugher in weeks, and my grandson is as many months as I am in years. My grandson, my daughter and I together are 120 years. Can you tell me my age in years ?",
+            answers: ["60", "72", "66", "81"],
+            correctAnswer: "72"
+        ),
+        Question(
+            question: "If 9999 = 4, 8888 = 8, 1816 = 6, 1212 = 0, then 1919 = ?",
+            answers: ["10", "4", "2", "12"],
+            correctAnswer: "4"
+        )
+    ]
+    
+    let scienceQuestions = [
+        Question(
+            question: "The image formed in a compound microscope is",
+            answers: ["erect", "inverted", "sometimes erect, sometimes inverted", "none"],
+            correctAnswer: "inverted"
+        ),
+        Question(
+            question: "The elimination of toxic nitrogenous waste and excess water in man is by",
+            answers: ["Excretion", "Circulation", "Reproduction", "Pollution"],
+            correctAnswer: "Excretion"
+        ),
+        Question(
+            question: "Which colour of light is deviated least",
+            answers: ["Red", "Blue", "Violet", "Green"],
+            correctAnswer: "Red"
+        ),
+        Question(
+            question: "Which blood cells are called 'Soldiers' of the body?",
+            answers: ["WBC", "Platelets", "RBC", "All of the above"],
+            correctAnswer: "WBC"
+        )
+    ]
+    
+    let marvelQuestions = [
+        Question(
+            question: "The Infinity Gauntlet holds how many gems?",
+            answers: ["5", "6", "7", "8"],
+            correctAnswer: "6"
+        ),
+        Question(
+            question: "What is the code name of the Super Soldier project that creates Captain America?",
+            answers: ["Project Victory", "Project Patriot", "Project Rebirth", "Project Revival"],
+            correctAnswer: "Project Rebirth"
+        ),
+        Question(
+            question: "Who became the second version of Ant-man by stealing the technology from Dr. Hank Pym?",
+            answers: ["Eric O'Grady", "Darren Cross", "Scott Lang", "Mitchell Carson"],
+            correctAnswer: "Scott Lang"
+        ),
+        Question(
+            question: "What villain shot Captain America from a sniper's position as the Captain was leaving a federal courthouse after the events of the Civil War?",
+            answers: ["Bullseye", "Crossbones", "Deathlok", "Hulk"],
+            correctAnswer: "Crossbones"
+        )
+    ]
+    
     // MARK: Actions
     @IBAction func settingsButton(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: "Alert", message: "Settings go here!", preferredStyle: .alert)
@@ -40,9 +109,11 @@ class CategoryTableViewController: UITableViewController {
     }
     
     private func loadSampleCategories() {
-        categories.append(Category(subject: "Mathematics", description: "Test your knowledge on math!", icon: UIImage(named: "Math")!))
-        categories.append(Category(subject: "Marvel Super Heroes", description: "Test your knowledge on characters in the Marvel Universe!", icon: UIImage(named: "Marvel")!))
-        categories.append(Category(subject: "Science", description: "Test how well you think you know science!", icon: UIImage(named: "Science")!))
+        
+        categories.append(Category(subject: "Mathematics", description: "Test your knowledge on math!", icon: UIImage(named: "Math")!, questionsArray: mathQuestions))
+        categories.append(Category(subject: "Marvel Super Heroes", description: "Test your knowledge on characters in the Marvel Universe!", icon: UIImage(named: "Marvel")!, questionsArray: scienceQuestions))
+        categories.append(Category(subject: "Science", description: "Test how well you think you know science!", icon: UIImage(named: "Science")!, questionsArray: marvelQuestions))
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -73,6 +144,9 @@ class CategoryTableViewController: UITableViewController {
         cell.subjectLabel.text = category.subject
         cell.descriptionLabel.text = category.description
         cell.imageView?.image = category.icon
+        cell.questions = category.questionsArray
+        
+        print(cell.questions)
         
         return cell
     }
@@ -112,14 +186,21 @@ class CategoryTableViewController: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "ShowQuestion" {
+            
+            let cell = sender as! CategoryTableViewCell
+            let questions = cell.questions
+            
+            let destination = segue.destination as! UINavigationController
+            let vc = destination.topViewController as! QuestionViewController
+            vc.questions = questions
+            
+        }
+        
     }
-    */
 
 }

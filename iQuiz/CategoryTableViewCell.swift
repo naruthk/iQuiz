@@ -15,6 +15,16 @@ class CategoryTableViewCell: UITableViewCell {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var photoImageView: UIImageView!
     
+    var questions: [Question] = []
+    
+//    init (categoryContent: Category) {
+//        self.categoryContent = categoryContent
+//    }
+//
+//    required init?(coder aDecoder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

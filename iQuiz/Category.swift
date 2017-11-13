@@ -13,11 +13,13 @@ class Category {
     var subject: String
     var description: String
     var icon: UIImage!
+    var questionsArray: [Question]
     
-    init(subject: String, description: String, icon: UIImage!) {
+    init (subject: String, description: String, icon: UIImage!, questionsArray: [Question]) {
         self.subject = subject
         self.description = description
         self.icon = icon
+        self.questionsArray = questionsArray
     }
     
 }
