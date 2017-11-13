@@ -64,21 +64,26 @@ class QuestionViewController: UIViewController, UITableViewDelegate, UITableView
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
-//        if segue.identifier == "ShowResultForParticularQuestion" {
-//
+        if segue.identifier == "ShowResult" {
+
 //            let destination = segue.destination as! UINavigationController
-//            let vc = destination.topViewController as! ResultsViewController
+//            let vc = destination.topViewController as! ResultViewController
+            
+            let vc = segue.destination as! ResultViewController
         
-//            if (self.isCorrectAnswer) {
-//                vc.correct = true
-//                currentScore =+ 1
-//            }
-//
-//            vc.score = self.currentScore
-//            vc.questions = self.questions
-//            vc.userSelectedAnswer = self.userSelectedAnswer
-//
-//        }
+            if (self.isCorrectAnswer) {
+                vc.isCorrect = true
+                currentScore += 1
+            }
+            
+            vc.questionIndex = self.questionIndex
+            vc.currentScore = self.currentScore
+            vc.questions = self.questions!
+            vc.userSelectedAnswer = self.userSelectedAnswer
+
+        }
+        
     }
+    
 
 }
