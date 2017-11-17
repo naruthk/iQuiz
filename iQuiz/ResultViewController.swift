@@ -21,8 +21,9 @@ class ResultViewController: UIViewController {
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var correctIncorrectLabel: UILabel!
     @IBOutlet weak var currentScoreLabel: UILabel!
-    @IBOutlet weak var correctAnswerLabel: UILabel!
+    
     @IBOutlet weak var userAnswerLabel: UILabel!
+    @IBOutlet weak var correctAnswerLabel: UILabel!
     
     @IBOutlet weak var btnProceedToEndPage: UIButton!
     @IBOutlet weak var btnProceedToNextQuestion: UIButton!

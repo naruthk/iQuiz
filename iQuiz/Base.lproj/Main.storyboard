@@ -16,9 +16,6 @@
             <string>AvenirNext-MediumItalic</string>
             <string>AvenirNext-Regular</string>
         </array>
-        <array key="HelveticaNeue.ttc">
-            <string>HelveticaNeue</string>
-        </array>
     </customFonts>
     <scenes>
         <!--Topics-->
@@ -123,16 +120,16 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="separatorColor" white="0.94873673390000002" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AnswerTableViewCell" id="99F-EG-rYF" customClass="AnswerTableViewCell" customModule="iQuiz" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="335" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AnswerTableViewCell" rowHeight="70" id="99F-EG-rYF" customClass="AnswerTableViewCell" customModule="iQuiz" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="335" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="99F-EG-rYF" id="Ma8-dw-Lsn">
-                                            <rect key="frame" x="0.0" y="0.0" width="335" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="335" height="69.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Answer Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0zR-h9-6kP">
-                                                    <rect key="frame" x="13" y="10" width="312" height="24"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="19"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Answer Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0zR-h9-6kP">
+                                                    <rect key="frame" x="13" y="10" width="312" height="49.5"/>
+                                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -213,7 +210,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="gub-OT-C3Z"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="26"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -272,8 +269,8 @@
                                 <size key="shadowOffset" width="0.0" height="0.0"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Correct answer" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fgU-yR-pGE">
-                                <rect key="frame" x="20" y="339" width="335" height="33"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-MediumItalic" family="Avenir Next" pointSize="24"/>
+                                <rect key="frame" x="20" y="339" width="335" height="25"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-MediumItalic" family="Avenir Next" pointSize="18"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                                 <size key="shadowOffset" width="0.0" height="0.0"/>
@@ -330,11 +327,11 @@
                     <connections>
                         <outlet property="btnProceedToEndPage" destination="Wmr-gV-C8o" id="Cev-f5-zhm"/>
                         <outlet property="btnProceedToNextQuestion" destination="hto-18-JWW" id="tXj-uG-0rC"/>
-                        <outlet property="correctAnswerLabel" destination="Mv5-Kz-COb" id="oYK-q5-dh2"/>
+                        <outlet property="correctAnswerLabel" destination="fgU-yR-pGE" id="H6W-22-cox"/>
                         <outlet property="correctIncorrectLabel" destination="970-Tq-pii" id="ZiQ-jA-gvo"/>
                         <outlet property="currentScoreLabel" destination="JOb-UB-nGL" id="rqO-yd-G5Y"/>
                         <outlet property="questionLabel" destination="q5U-wx-ntm" id="oMz-zh-XjO"/>
-                        <outlet property="userAnswerLabel" destination="fgU-yR-pGE" id="Nc1-KH-rXa"/>
+                        <outlet property="userAnswerLabel" destination="Mv5-Kz-COb" id="BXx-nf-G7R"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="son-Qw-wZk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -459,6 +456,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="faN-EK-1ot"/>
         <segue reference="Hs9-Gt-aP0"/>
     </inferredMetricsTieBreakers>
 </document>

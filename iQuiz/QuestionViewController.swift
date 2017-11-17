@@ -22,13 +22,11 @@ class QuestionViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         questionLabel.text = self.questions![questionIndex - 1].question
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -36,13 +34,15 @@ class QuestionViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return questions!.count
+        let answers_amount = self.questions![questionIndex - 1].answers.count
+        return answers_amount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "AnswerTableViewCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! AnswerTableViewCell
-        if (answerIndex < questions!.count) {
+        let answers_amount = self.questions![questionIndex - 1].answers.count
+        if (answerIndex <= answers_amount) {
             let answer = self.questions![questionIndex - 1].answers[answerIndex]
             cell.answerLabel.text = answer
             answerIndex += 1
@@ -52,26 +52,24 @@ class QuestionViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         userSelectedAnswer = self.questions![questionIndex - 1].answers[indexPath.row]
-        if userSelectedAnswer == self.questions![questionIndex - 1].correctAnswer {
+        let correctAnswer = self.questions![questionIndex - 1].correctAnswer
+        if userSelectedAnswer == correctAnswer {
             self.isCorrectAnswer = true
+        } else {
+            self.isCorrectAnswer = false
         }
     }
 
     
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         if segue.identifier == "ShowResult" {
-            
             let vc = segue.destination as! ResultViewController
-        
             if (self.isCorrectAnswer) {
                 vc.isCorrect = true
                 currentScore += 1
             }
-            
             vc.questionIndex = self.questionIndex
             vc.currentScore = self.currentScore
             vc.questions = self.questions!
