@@ -10,6 +10,7 @@ import UIKit
 
 class Category {
     
+    // MARK: Properties
     var subject: String
     var description: String
     var icon: UIImage!

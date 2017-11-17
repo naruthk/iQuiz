@@ -10,6 +10,7 @@ import Foundation
 
 class Question {
     
+    // MARK: Properties
     var question : String
     var answers : [String]
     var correctAnswer : String

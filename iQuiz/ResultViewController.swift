@@ -21,10 +21,8 @@ class ResultViewController: UIViewController {
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var correctIncorrectLabel: UILabel!
     @IBOutlet weak var currentScoreLabel: UILabel!
-    
     @IBOutlet weak var userAnswerLabel: UILabel!
     @IBOutlet weak var correctAnswerLabel: UILabel!
-    
     @IBOutlet weak var btnProceedToEndPage: UIButton!
     @IBOutlet weak var btnProceedToNextQuestion: UIButton!
     
@@ -32,24 +30,16 @@ class ResultViewController: UIViewController {
         super.viewDidLoad()
         
         questionLabel.text = self.questions[questionIndex - 1].question
-        
-        if isCorrect {
-            correctIncorrectLabel.text = "Hey, that's awesome. It's correct!"
-        } else {
-            correctIncorrectLabel.text = "Nice try, but your answer was wrong"
-        }
-        
         correctAnswerLabel.text = self.questions[questionIndex - 1].correctAnswer
-        
+        correctIncorrectLabel.text = isCorrect ?
+            "Excellent choice! That is correct!" : "Wrong! Better luck next time :)"
         userAnswerLabel.text = userSelectedAnswer
-        
         currentScoreLabel.text = "\(currentScore)"
         
+        // If there are more questions to be answered, the Next button retrieves the next question.
         if (questionIndex < questions.count) {
             btnProceedToEndPage.isHidden = true
-        }
-        
-        if (questionIndex > questions.count) {
+        } else { // Otherwise, Next button leads back to the Homepage
             btnProceedToNextQuestion.isHidden = true
             btnProceedToEndPage.isHidden = false
         }
@@ -58,22 +48,17 @@ class ResultViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
 
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         if segue.identifier == "ShowNextQuestion" {
             let vc = segue.destination as! QuestionViewController
             vc.questions = self.questions
             vc.questionIndex = self.questionIndex + 1
             vc.currentScore = self.currentScore
         }
-            
         if segue.identifier == "ShowEndGame" {
             let vc = segue.destination as! EndGameViewController
             vc.questions = self.questions

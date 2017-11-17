@@ -53,17 +53,12 @@ class QuestionViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         userSelectedAnswer = self.questions![questionIndex - 1].answers[indexPath.row]
         let correctAnswer = self.questions![questionIndex - 1].correctAnswer
-        if userSelectedAnswer == correctAnswer {
-            self.isCorrectAnswer = true
-        } else {
-            self.isCorrectAnswer = false
-        }
+        self.isCorrectAnswer = (userSelectedAnswer == correctAnswer) ? true : false
     }
 
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
         if segue.identifier == "ShowResult" {
             let vc = segue.destination as! ResultViewController
             if (self.isCorrectAnswer) {

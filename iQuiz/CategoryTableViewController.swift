@@ -12,7 +12,6 @@ class CategoryTableViewController: UITableViewController {
 
     // MARK: Properties
     var categories = [Category]()
-    let json_url = "https://tednewardsandbox.site44.com/questions.json";
     
     // MARK: Actions
     @IBAction func settingsButton(_ sender: UIBarButtonItem) {
@@ -27,22 +26,25 @@ class CategoryTableViewController: UITableViewController {
         })
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         loadQuestionsData()
         
         // TO-DO: (See Ted's Slide)
-        // 3) Store game data in phone storage (See Slide 576)
         // 4) Add Settings (Slide 602)
     }
     
-    // Method for getting JSON is copied from an answer provided by a StackOverFlow's user
-    // URL to source of code: stackoverflow.com/questions/39939143/parse-json-response-with-swift-3
+    // This method connects to an external web server to retrieve a JSON string object. This JSON string object
+    // gets passed to a helper function that setups the necessary tables and cells and renders all
+    // information (questions and answers) for the game.
     private func loadQuestionsData() {
-    var request = URLRequest(url: URL(string: json_url)!)
+        let json_url = "https://tednewardsandbox.site44.com/questions.json";
+        var request = URLRequest(url: URL(string: json_url)!)
         request.httpMethod = "GET"
+        
+        // Performs a URLSession to execute an asynchronous call to retrieve data from
+        // Ted's online Json file. Using .resume() to start callback.
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
                 print("error=\(String(describing: error))")
@@ -51,13 +53,23 @@ class CategoryTableViewController: UITableViewController {
             if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
                 print("statusCode should be 200, but is \(httpStatus.statusCode)")
                 print("response = \(String(describing: response))")
+                
+                // When network connection fails, use the json string
+                // aleady stored in the local storage system
+                self.loadOfflineData()
             }
             do {
                 let jsonObj = try JSONSerialization.jsonObject(with: data) as! Array<[String: Any]>
                 self.parseJson(jsonObj)
+                
+                // Running DispatchQueue to "refresh" our questions/answers cells
                 DispatchQueue.main.async { [unowned self] in
                     self.tableView.reloadData()
                 }
+                
+                // Automatically saving to Local Storage in case next fetch of data is not successful
+                let string = String(data: data, encoding: String.Encoding.utf8)
+                UserDefaults.standard.set(string, forKey: "data")
             } catch {
                 print(error)
             }
@@ -65,6 +77,16 @@ class CategoryTableViewController: UITableViewController {
         task.resume()
     }
     
+    // Helper method that retrieves JSON data from a locally-stored database rather than from the Internet
+    // server. Only runs when the Internet connection is offline
+    private func loadOfflineData() {
+        let string = UserDefaults.standard.object(forKey: "data") as! String!
+        let jsonData = string?.data(using: .utf8)!
+        let json = try! JSONSerialization.jsonObject(with: jsonData!, options: .allowFragments) as! Array<[String: Any]>
+        self.parseJson(json)
+    }
+    
+    // Retrieves a JSON object (that has been serialized) and renders necessary table views and cells
     private func parseJson(_ jsonObj: Array<[String: Any]>) {
         for category in jsonObj {
             let subjectTitle = category["title"] as! String
@@ -80,6 +102,9 @@ class CategoryTableViewController: UITableViewController {
                 }
                 questionsArray.append(Question(question: questionTitle, answers: answersArray, correctAnswer: answersArray[Int(correctAnswerIndex)! - 1]))
             }
+            
+            // An image named "Blank" will be used if the questions' subjects are not either Mathematics,
+            // Science, or Marvel Super Heroes.
             var image: UIImage
             if subjectTitle == "Mathematics" {
                 image = UIImage(named: "Math")!
