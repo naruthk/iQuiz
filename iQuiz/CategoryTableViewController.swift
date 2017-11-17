@@ -12,34 +12,25 @@ class CategoryTableViewController: UITableViewController {
 
     // MARK: Properties
     var categories = [Category]()
-    
-    // MARK: Actions
-    @IBAction func settingsButton(_ sender: UIBarButtonItem) {
-        let alert = UIAlertController(title: "Alert", message: "Settings go here!", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK",
-                                      style: .default,
-                                      handler: { _ in
-                                        NSLog("\"OK\" pressed.")
-        }))
-        self.present(alert, animated: true, completion: {
-            NSLog("The completion handler fired")
-        })
-    }
+    var urlTextField: UITextField?
+    var json_url = "https://tednewardsandbox.site44.com/questions.json";
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadQuestionsData()
-        
-        // TO-DO: (See Ted's Slide)
-        // 4) Add Settings (Slide 602)
+        loadQuestionsData(json_url: json_url)
     }
     
     // This method connects to an external web server to retrieve a JSON string object. This JSON string object
     // gets passed to a helper function that setups the necessary tables and cells and renders all
     // information (questions and answers) for the game.
-    private func loadQuestionsData() {
-        let json_url = "https://tednewardsandbox.site44.com/questions.json";
+    private func loadQuestionsData(json_url: String) {
+        
+        // As a precaution, let's remove any existing categories that the
+        // may have already downloaded upon launching.
+        categories.removeAll()
+        tableView.reloadData()
+        
         var request = URLRequest(url: URL(string: json_url)!)
         request.httpMethod = "GET"
         
@@ -144,6 +135,36 @@ class CategoryTableViewController: UITableViewController {
         cell.questions = category.questionsArray
         
         return cell
+    }
+    
+    // MARK: Actions
+    
+    // As an alert button, the user can configure a new URL to fetch questions and answers.
+    @IBAction func settingsButton(_ sender: UIBarButtonItem) {
+        let alert = UIAlertController(title: "Provide a URL to fetch more  categories!", message: nil, preferredStyle: .alert)
+        alert.addTextField(configurationHandler: urlTextField)
+        alert.addAction(UIAlertAction(title: "Check Now",
+                                      style: .default,
+                                      handler: self.fetchHandler))
+        alert.addAction(UIAlertAction(title: "Cancel",
+                                      style: .default,
+                                      handler: { _ in
+                                        NSLog("\"Cancel\" pressed.")
+        }))
+        self.present(alert, animated: true, completion: {})
+    }
+    
+    // Provides a temporary placeholder for the URL Text Field
+    func urlTextField(textField: UITextField!) {
+        urlTextField = textField
+        urlTextField?.placeholder = "Leave blank and submit to use sample"
+    }
+    
+    // Saves the new URL and fetch new sets of questions and answers based on it
+    func fetchHandler(alert: UIAlertAction) {
+        json_url = (urlTextField?.text)!.isEmpty ?
+            "https://tednewardsandbox.site44.com/questions.json" : (urlTextField?.text)!
+        loadQuestionsData(json_url: json_url)
     }
 
     // MARK: - Navigation
